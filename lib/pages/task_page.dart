@@ -8,61 +8,75 @@ import 'package:mtodox/providers/listProvider.dart';
 import 'package:mtodox/widgets/task_dialog.dart';
 
 class TaskPage extends StatelessWidget {
-  Lista list;
-  TaskPage({Key? key, required this.list}) : super(key: key);
+  late Lista? list;
+  TaskPage({Key? key, this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final listProviderlistener = Provider.of<ListProvider>(context);
-
+    ListProvider taskProvider = Provider.of<ListProvider>(context);
     color my_Colors = color();
-    return Directionality(
-      // add this
-      textDirection: TextDirection.rtl, // set this property
-      child: Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: my_Colors.purple,
-          child: Icon(
-            Icons.add,
-          ),
-          onPressed: () {
-            Mtaskdialog().ListDialog(context, list.index);
-          },
-        ),
-        appBar: AppBar(
-          backgroundColor: my_Colors.lightblue,
-          elevation: 0,
-          title: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              list.listName,
-              style: GoogleFonts.changa(fontSize: 45, color: my_Colors.black),
+    return Consumer<ListProvider>(
+      builder: (context, value, child) {
+        return Directionality(
+          // add this
+          textDirection: TextDirection.rtl, // set this property
+          child: Scaffold(
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: my_Colors.purple,
+              child: Icon(
+                Icons.add,
+              ),
+              onPressed: () {
+                Mtaskdialog().ListDialog(context, list!.index);
+              },
             ),
+            appBar: AppBar(
+              backgroundColor: my_Colors.lightblue,
+              elevation: 0,
+              title: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  list!.listName,
+                  style:
+                      GoogleFonts.changa(fontSize: 45, color: my_Colors.black),
+                ),
+              ),
+            ),
+            body: Container(
+                color: my_Colors.lightblue,
+                child: ListView.builder(
+                  itemCount: taskProvider
+                      .lists[list!.index]
+                      .tasks
+                      .length,
+                  itemBuilder: (context, index) {
+                    print(taskProvider
+                        .lists[list!.index]
+                        .tasks[index]
+                        .taskName);
+                    return taskProvider
+                        .lists[list!.index]
+                        .tasks[index]
+                        .tasktile;
+
+                    // return Provider.of<ListProvider>(context).lists[index].listTile;
+                  }
+                  //! heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeereeeeeee
+                  //        CustomListTile(
+                  //          my_Colors: my_Colors,
+                  //          listname: "الدراسة",
+                  //        ),
+                  //        CustomListTile(
+                  //          my_Colors: my_Colors,
+                  //          listname: "meeeee",
+                  //       ),
+                  ,
+                )),
           ),
-        ),
-        body: Container(
-          color: my_Colors.lightblue,
-          child: ListView.builder(
-            itemCount: list.tasks.length,
-            itemBuilder: (context, index) {
-              return listProviderlistener.lists[list.index].tasks[index].tasktile;
-              // return Provider.of<ListProvider>(context).lists[index].listTile;
-            }
-            //! heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeereeeeeee
-            //        CustomListTile(
-            //          my_Colors: my_Colors,
-            //          listname: "الدراسة",
-            //        ),
-            //        CustomListTile(
-            //          my_Colors: my_Colors,
-            //          listname: "meeeee",
-            //       ),
-            ,
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

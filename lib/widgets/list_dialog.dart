@@ -18,7 +18,7 @@ class Mdialog {
         context: context,
         builder: (context) {
           return Consumer(
-            builder: (context, ListProvider, _) {
+            builder: (context, __, _) {
               return AlertDialog(
                 elevation: 0,
                 backgroundColor: mycolor.lightblue,
@@ -63,7 +63,7 @@ class Mdialog {
                           primary: mycolor.purple,
                         ),
                         onPressed: () {
-                          listProvider.addList(tasknamecontroller.text);
+                          listProvider.addList(tasknamecontroller.text,context);
                           Navigator.pop(context);
                         },
                         child: Padding(

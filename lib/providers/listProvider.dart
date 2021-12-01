@@ -13,15 +13,18 @@ class ListProvider with ChangeNotifier {
   //       context, MaterialPageRoute(builder: (context) => TaskPage()));
   // }
   int index = 0;
-  addList(String listName) {
-    lists.add(Lista(
+  addList(String listName, BuildContext context) {
+    _lists.add(Lista(
+        context: context,
+        index: index,
         listName: listName,
         listTile: CustomListTile(
           listname: listName,
           index: index,
         )));
-    notifyListeners();
+    print("list index" + index.toString());
     index++;
+    notifyListeners();
   }
 
   get lists {
@@ -29,41 +32,51 @@ class ListProvider with ChangeNotifier {
   }
 }
 
-// class Upper {
-//   late List<CustomListTile> lists;
-
-// Upper({required this.listTile,});
-//   addlist(String listName) {
-//     lists.add(Lista(listName: listName, listTile: CustomListTile(listname:listName,)).listTile);
-//   }
-
-//   get list {
-//     return lists;
-//   }
-// }
-
-class Lista {
+class Lista with ChangeNotifier {
   CustomListTile listTile;
   final listName;
-  late List<Task> tasks = [];
-
-  Lista({required this.listName, required this.listTile});
+  BuildContext context;
+  late List<Task> _tasks = [];
   int index = 0;
+  int task_index = 0;
+  Lista(
+      {required this.listName,
+      required this.listTile,
+      required this.index,
+      required this.context});
   addTask(String taskName, String taskdetails) {
-    tasks.add(Task(
+    print("before null");
+    _tasks.add(Task(
+        index: task_index,
         taskName: taskName,
         taskdetails: taskdetails,
         tasktile: CustomListTile(
-          listname: listName,
+          listname: taskName,
           index: index,
         )));
-    index++;
+    print("task index" + task_index.toString());
+    notifyListeners();
+
+    task_index++;
+    // Provider.of<ListProvider>(context, listen: false).notifyListeners();
+
+    print("after null");
+  }
+
+  get tasks {
+    return _tasks;
   }
 }
 
 class Task {
+  int index;
   final String taskName;
   final String? taskdetails;
   final CustomListTile tasktile;
-  Task({required this.taskName, this.taskdetails, required this.tasktile});
+  Task({
+    required this.index,
+    required this.taskName,
+    this.taskdetails,
+    required this.tasktile,
+  });
 }

@@ -17,8 +17,7 @@ class ListPage extends StatelessWidget {
     return Directionality(
       // add this
       textDirection: TextDirection.rtl, // set this property
-      child: ChangeNotifierProvider<ListProvider>(
-        create: (context) => ListProvider(),
+      
         child: Consumer<ListProvider>(
           builder: (context, value, child) => Scaffold(
             floatingActionButtonLocation:
@@ -66,7 +65,7 @@ class ListPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      
     );
   }
 }

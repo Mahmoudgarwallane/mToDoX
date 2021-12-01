@@ -40,7 +40,9 @@ class CustomListTile extends StatelessWidget {
             splashColor: my_Colors.lightblue,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return TaskPage(list: listProvider.lists[index],);
+                return TaskPage(
+                  list: listProvider.lists[index],
+                );
               }));
             },
             child: Container(
