@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:mtodox/pages/task_page.dart';
 import 'package:mtodox/objects/task.dart';
 
-class ListProvider with ChangeNotifier {
+class ListProvider extends ChangeNotifier {
   List<Lista> _lists = [];
+    int index = 0;
+  int task_index = 0;
   // popit(BuildContext context) {
   //   print("here");
   //   Navigator.push(
   //       context, MaterialPageRoute(builder: (context) => TaskPage()));
   // }
-  int index = 0;
+  
   addList(String listName, BuildContext context) {
     _lists.add(Lista(
         context: context,
@@ -25,28 +27,9 @@ class ListProvider with ChangeNotifier {
     print("list index" + index.toString());
     index++;
     notifyListeners();
-  }
-
-  get lists {
-    return _lists;
-  }
-}
-
-class Lista with ChangeNotifier {
-  CustomListTile listTile;
-  final listName;
-  BuildContext context;
-  late List<Task> _tasks = [];
-  int index = 0;
-  int task_index = 0;
-  Lista(
-      {required this.listName,
-      required this.listTile,
-      required this.index,
-      required this.context});
-  addTask(String taskName, String taskdetails) {
+  }  addTask(String taskName, String taskdetails,int indx) {
     print("before null");
-    _tasks.add(Task(
+    _lists[indx]._tasks.add(Task(
         index: task_index,
         taskName: taskName,
         taskdetails: taskdetails,
@@ -63,7 +46,26 @@ class Lista with ChangeNotifier {
     print("after null");
   }
 
-  get tasks {
+ 
+
+  get lists {
+    return _lists;
+  }
+}
+
+class Lista extends ListProvider {
+  CustomListTile listTile;
+  final listName;
+  BuildContext context;
+  late List<Task> _tasks = [];
+  int index = 0;
+  int task_index = 0;
+  Lista(
+      {required this.listName,
+      required this.listTile,
+      required this.index,
+      required this.context});
+    get tasks {
     return _tasks;
   }
 }

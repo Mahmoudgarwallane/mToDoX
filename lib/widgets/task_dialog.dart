@@ -92,9 +92,8 @@ class Mtaskdialog {
                         ),
                         onPressed: () {
                           Provider.of<ListProvider>(context, listen: false)
-                              .lists[index]
                               .addTask(tasknamecontroller.text,
-                                  taskdetailscontroller.text);
+                                  taskdetailscontroller.text, index);
                           Navigator.pop(context);
                           print(index);
                         },

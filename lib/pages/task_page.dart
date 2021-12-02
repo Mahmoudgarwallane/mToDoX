@@ -47,19 +47,12 @@ class TaskPage extends StatelessWidget {
             body: Container(
                 color: my_Colors.lightblue,
                 child: ListView.builder(
-                  itemCount: taskProvider
-                      .lists[list!.index]
-                      .tasks
-                      .length,
+                  itemCount: taskProvider.lists[list!.index].tasks.length,
                   itemBuilder: (context, index) {
-                    print(taskProvider
-                        .lists[list!.index]
-                        .tasks[index]
-                        .taskName);
+                    print(
+                        taskProvider.lists[list!.index].tasks[index].taskName);
                     return taskProvider
-                        .lists[list!.index]
-                        .tasks[index]
-                        .tasktile;
+                        .lists[list!.index].tasks[index].tasktile;
 
                     // return Provider.of<ListProvider>(context).lists[index].listTile;
                   }
