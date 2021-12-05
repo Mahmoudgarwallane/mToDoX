@@ -95,7 +95,7 @@ class Mtaskdialog {
                               .addTask(tasknamecontroller.text,
                                   taskdetailscontroller.text, index);
                           Navigator.pop(context);
-                          print(index);
+                     
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(5),

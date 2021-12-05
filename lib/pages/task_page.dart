@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mtodox/assets/colors.dart';
-import 'package:mtodox/providers/taskProvider.dart';
-import 'package:mtodox/widgets/tile.dart';
 import 'package:provider/provider.dart';
 import 'package:mtodox/providers/listProvider.dart';
 import 'package:mtodox/widgets/task_dialog.dart';
@@ -46,27 +44,24 @@ class TaskPage extends StatelessWidget {
             ),
             body: Container(
                 color: my_Colors.lightblue,
-                child: ListView.builder(
-                  itemCount: taskProvider.lists[list!.index].tasks.length,
-                  itemBuilder: (context, index) {
-                    print(
-                        taskProvider.lists[list!.index].tasks[index].taskName);
-                    return taskProvider
-                        .lists[list!.index].tasks[index].tasktile;
-
-                    // return Provider.of<ListProvider>(context).lists[index].listTile;
+                child: Builder(builder: (context) {
+                  if (taskProvider.lists[list!.index].tasks.length == 0) {
+                    return Center(
+                        child: Text(
+                      "أضف مهمة",
+                      style: GoogleFonts.tajawal(
+                          fontSize: 20, color: my_Colors.black),
+                    ));
+                  } else {
+                    return ListView.builder(
+                      itemCount: taskProvider.lists[list!.index].tasks.length,
+                      itemBuilder: (context, index) {
+                        return taskProvider
+                            .lists[list!.index].tasks[index].tasktile;
+                      },
+                    );
                   }
-                  //! heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeereeeeeee
-                  //        CustomListTile(
-                  //          my_Colors: my_Colors,
-                  //          listname: "الدراسة",
-                  //        ),
-                  //        CustomListTile(
-                  //          my_Colors: my_Colors,
-                  //          listname: "meeeee",
-                  //       ),
-                  ,
-                )),
+                })),
           ),
         );
       },

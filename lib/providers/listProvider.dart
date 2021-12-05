@@ -1,20 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:mtodox/widgets/tile.dart';
+import 'package:mtodox/widgets/list_tile.dart';
+import 'package:mtodox/widgets/task_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:mtodox/pages/task_page.dart';
 import 'package:mtodox/objects/task.dart';
 
 class ListProvider extends ChangeNotifier {
   List<Lista> _lists = [];
-    int index = 0;
+  int index = 0;
   int task_index = 0;
-  // popit(BuildContext context) {
-  //   print("here");
-  //   Navigator.push(
-  //       context, MaterialPageRoute(builder: (context) => TaskPage()));
-  // }
-  
+
   addList(String listName, BuildContext context) {
     _lists.add(Lista(
         context: context,
@@ -24,29 +19,27 @@ class ListProvider extends ChangeNotifier {
           listname: listName,
           index: index,
         )));
-    print("list index" + index.toString());
     index++;
     notifyListeners();
-  }  addTask(String taskName, String taskdetails,int indx) {
-    print("before null");
+  }
+
+  addTask(String taskName, String taskdetails, int indx) {
     _lists[indx]._tasks.add(Task(
         index: task_index,
         taskName: taskName,
         taskdetails: taskdetails,
-        tasktile: CustomListTile(
+        tasktile: CustomTaskTile(
           listname: taskName,
-          index: index,
+          Task_index: task_index,
+          List_index: indx,
+          listDescription: taskdetails,
         )));
-    print("task index" + task_index.toString());
+
     notifyListeners();
 
     task_index++;
     // Provider.of<ListProvider>(context, listen: false).notifyListeners();
-
-    print("after null");
   }
-
- 
 
   get lists {
     return _lists;
@@ -65,7 +58,7 @@ class Lista extends ListProvider {
       required this.listTile,
       required this.index,
       required this.context});
-    get tasks {
+  get tasks {
     return _tasks;
   }
 }
@@ -73,12 +66,12 @@ class Lista extends ListProvider {
 class Task {
   int index;
   final String taskName;
-  final String? taskdetails;
-  final CustomListTile tasktile;
+  final String taskdetails;
+  final CustomTaskTile tasktile;
   Task({
     required this.index,
     required this.taskName,
-    this.taskdetails,
+    required this.taskdetails,
     required this.tasktile,
   });
 }
