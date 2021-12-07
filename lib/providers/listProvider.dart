@@ -8,7 +8,6 @@ import 'package:mtodox/objects/task.dart';
 class ListProvider extends ChangeNotifier {
   List<Lista> _lists = [];
   int index = 0;
-  int task_index = 0;
 
   addList(String listName, BuildContext context) {
     _lists.add(Lista(
@@ -25,19 +24,18 @@ class ListProvider extends ChangeNotifier {
 
   addTask(String taskName, String taskdetails, int indx) {
     _lists[indx]._tasks.add(Task(
-        index: task_index,
+        index: _lists[indx].task_index,
         taskName: taskName,
         taskdetails: taskdetails,
         tasktile: CustomTaskTile(
           listname: taskName,
-          Task_index: task_index,
+          Task_index: _lists[indx].task_index,
           List_index: indx,
           listDescription: taskdetails,
         )));
-
+    _lists[indx].incrementTaskIndix();
     notifyListeners();
 
-    task_index++;
     // Provider.of<ListProvider>(context, listen: false).notifyListeners();
   }
 
@@ -53,6 +51,10 @@ class Lista extends ListProvider {
   late List<Task> _tasks = [];
   int index = 0;
   int task_index = 0;
+  void incrementTaskIndix() {
+    task_index++;
+  }
+
   Lista(
       {required this.listName,
       required this.listTile,

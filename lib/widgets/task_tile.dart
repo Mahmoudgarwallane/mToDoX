@@ -42,11 +42,11 @@ class CustomTaskTile extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: ListTile(
               onTap: () {
+                print("list : $List_index");
+                print("task : $Task_index");
                 if (listProvider
                         .lists[List_index].tasks[Task_index].taskdetails !=
                     "") {
-                  
-
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return DetailPage(
                       task: listProvider.lists[List_index].tasks[Task_index],
