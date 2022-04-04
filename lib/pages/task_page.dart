@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mtodox/assets/colors.dart';
-import 'package:provider/provider.dart';
-import 'package:mtodox/providers/listProvider.dart';
-import 'package:mtodox/widgets/task_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mtodox/cubit/todo_cubit.dart';
+import 'package:mtodox/widgets/task_tile.dart';
+
+import '../assets/colors.dart';
+import '../widgets/task_dialog.dart';
 
 class TaskPage extends StatelessWidget {
-  late Lista? list;
-  TaskPage({Key? key, this.list}) : super(key: key);
+  late Category category;
+  TaskPage({Key? key, required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ListProvider taskProvider = Provider.of<ListProvider>(context);
-    color my_Colors = color();
-    return Consumer<ListProvider>(
-      builder: (context, value, child) {
+    color myColors = color();
+    return BlocConsumer<TodoCubit, TodoState>(
+      listener: (context, state) {},
+      builder: (context, state) {
         return Directionality(
           // add this
           textDirection: TextDirection.rtl, // set this property
@@ -22,42 +23,44 @@ class TaskPage extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton(
-              backgroundColor: my_Colors.purple,
-              child: Icon(
+              backgroundColor: myColors.purple,
+              child: const Icon(
                 Icons.add,
               ),
               onPressed: () {
-                Mtaskdialog().ListDialog(context, list!.index);
+                Mtaskdialog().ListDialog(context, category);
               },
             ),
             appBar: AppBar(
-              backgroundColor: my_Colors.lightblue,
+              toolbarHeight: 70,
+              backgroundColor: myColors.lightblue,
               elevation: 0,
               title: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  list!.listName,
-                  style:
-                      GoogleFonts.changa(fontSize: 45, color: my_Colors.black),
+                  category.name,
+                  style: TextStyle(fontSize: 45, color: myColors.black),
                 ),
               ),
             ),
             body: Container(
-                color: my_Colors.lightblue,
+                color: myColors.lightblue,
                 child: Builder(builder: (context) {
-                  if (taskProvider.lists[list!.index].tasks.length == 0) {
+                  if (category.tasks.isEmpty) {
                     return Center(
                         child: Text(
                       "أضف مهمة",
-                      style: GoogleFonts.tajawal(
-                          fontSize: 20, color: my_Colors.black),
+                      style: TextStyle(fontSize: 20, color: myColors.black),
                     ));
                   } else {
                     return ListView.builder(
-                      itemCount: taskProvider.lists[list!.index].tasks.length,
+                      itemCount: category.tasks.length,
                       itemBuilder: (context, index) {
-                        return taskProvider
-                            .lists[list!.index].tasks[index].tasktile;
+                        print(category.tasks);
+                        return CustomTaskTile(
+                          task: category.tasks[index],
+                          category: category,
+                        );
                       },
                     );
                   }

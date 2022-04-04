@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:mtodox/assets/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mtodox/providers/listProvider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mtodox/cubit/todo_cubit.dart';
+
+import '../assets/colors.dart';
 
 class Mtaskdialog {
   color mycolor = color();
-  Future<void> ListDialog(BuildContext context, int index) {
-    var max_width = MediaQuery.of(context).size.width;
-    var max_height = MediaQuery.of(context).size.height;
+  Future<void> ListDialog(BuildContext context, Category category) {
+    var maxWidth = MediaQuery.of(context).size.width;
+    var maxHeight = MediaQuery.of(context).size.height;
     TextEditingController tasknamecontroller = TextEditingController();
     TextEditingController taskdetailscontroller = TextEditingController();
-    final taskProvider = Provider.of<ListProvider>(context, listen: false);
 
     return showDialog(
         context: context,
         builder: (context) {
-          return Consumer(
-            builder: (context, __, _) {
+          return BlocConsumer<TodoCubit, TodoState>(
+            listener: ((context, state) {}),
+            builder: (context, state) {
               return AlertDialog(
                 elevation: 0,
                 backgroundColor: mycolor.lightblue,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)),
-                content: Container(
-                  width: max_width,
+                content: SizedBox(
+                  width: maxWidth,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -33,8 +33,8 @@ class Mtaskdialog {
                         children: [
                           Text(
                             "اسم المهمة",
-                            style: GoogleFonts.tajawal(
-                                fontSize: 18, color: mycolor.black),
+                            style:
+                                TextStyle(fontSize: 18, color: mycolor.black),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
@@ -46,7 +46,7 @@ class Mtaskdialog {
                               decoration: InputDecoration(
                                   fillColor: mycolor.white,
                                   filled: true,
-                                  enabledBorder: OutlineInputBorder(
+                                  enabledBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.black)),
                                   focusedBorder: OutlineInputBorder(
@@ -63,8 +63,8 @@ class Mtaskdialog {
                         children: [
                           Text(
                             "تفاصيل المهمة",
-                            style: GoogleFonts.tajawal(
-                                fontSize: 18, color: mycolor.black),
+                            style:
+                                TextStyle(fontSize: 18, color: mycolor.black),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
@@ -75,7 +75,7 @@ class Mtaskdialog {
                               decoration: InputDecoration(
                                   fillColor: mycolor.white,
                                   filled: true,
-                                  enabledBorder: OutlineInputBorder(
+                                  enabledBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.black)),
                                   focusedBorder: OutlineInputBorder(
@@ -91,18 +91,16 @@ class Mtaskdialog {
                           primary: mycolor.purple,
                         ),
                         onPressed: () {
-                          Provider.of<ListProvider>(context, listen: false)
-                              .addTask(tasknamecontroller.text,
-                                  taskdetailscontroller.text, index);
+                          context.read<TodoCubit>().addTask(category,
+                              Task(name: tasknamecontroller.text, description: taskdetailscontroller.text));
                           Navigator.pop(context);
-                     
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(5),
                           child: Text(
                             "إنشاء",
-                            style: GoogleFonts.tajawal(
-                                fontSize: 18, color: mycolor.white),
+                            style:
+                                TextStyle(fontSize: 18, color: mycolor.white),
                           ),
                         ),
                       ),
