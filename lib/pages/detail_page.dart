@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../assets/colors.dart';
 import '../cubit/todo_cubit.dart';
+import '../model/task.dart';
 
 class DetailPage extends StatelessWidget {
   final Task task;
@@ -8,16 +9,15 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    color myColors = color();
     double maxwidth = MediaQuery.of(context).size.width;
     double maxheight = MediaQuery.of(context).size.height;
     return Directionality(
         // add this
         textDirection: TextDirection.rtl, // set this property
         child: Scaffold(
-            backgroundColor: myColors.deepwhite,
+            backgroundColor: color.color4,
             appBar: AppBar(
-              backgroundColor: myColors.deepwhite,
+              backgroundColor: color.color4,
               elevation: 0,
               title: Padding(
                 padding: const EdgeInsets.all(10),
@@ -25,7 +25,7 @@ class DetailPage extends StatelessWidget {
                   task.name,
                   style: TextStyle(
                       fontSize: 25,
-                      color: myColors.black,
+                      color: color.color2,
                       fontWeight: FontWeight.w500),
                 ),
               ),
@@ -44,7 +44,7 @@ class DetailPage extends StatelessWidget {
                         child: Text('تفاصيل المهمة',
                             style: TextStyle(
                                 fontSize: 24,
-                                color: myColors.black,
+                                color: color.color2,
                                 fontWeight: FontWeight.w300)),
                       ),
                       Padding(
@@ -53,13 +53,13 @@ class DetailPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(15)),
-                              color: myColors.lightblue),
+                              color: color.color5),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(task.description,
                                 style: TextStyle(
                                   fontSize: 24,
-                                  color: myColors.black,
+                                  color: color.color2,
                                 )),
                           ),
                         ),

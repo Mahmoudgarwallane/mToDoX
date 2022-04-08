@@ -4,6 +4,9 @@ import 'package:mtodox/pages/detail_page.dart';
 import '../cubit/todo_cubit.dart';
 import 'package:provider/provider.dart';
 
+import '../model/category.dart';
+import '../model/task.dart';
+
 class CustomTaskTile extends StatefulWidget {
   final Task task;
   final Category category;
@@ -16,7 +19,6 @@ class CustomTaskTile extends StatefulWidget {
 }
 
 class _CustomTaskTileState extends State<CustomTaskTile> {
-  final color my_Colors = color();
   bool visible = true;
 
   @override
@@ -30,16 +32,18 @@ class _CustomTaskTileState extends State<CustomTaskTile> {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: color.color1.withOpacity(0.3),
                     spreadRadius: 1,
                     blurRadius: 7,
                     offset: const Offset(1, 5)),
               ],
-              color: my_Colors.deepwhite,
+              color: color.color4,
             ),
             child: Dismissible(
               onDismissed: (direction) {
-                context.read<TodoCubit>().deleteTask(widget.category, widget.task);
+                context
+                    .read<TodoCubit>()
+                    .deleteTask(widget.category, widget.task);
                 setState(() {
                   visible = false;
                 });
@@ -79,11 +83,11 @@ class _CustomTaskTileState extends State<CustomTaskTile> {
                       onPressed: () {},
                       icon: Icon(
                         Icons.circle,
-                        color: my_Colors.purple,
+                        color: color.color3,
                       )),
                   title: Text(
                     widget.task.name,
-                    style: TextStyle(fontSize: 18, color: my_Colors.black),
+                    style: TextStyle(fontSize: 18, color: color.color2),
                   ),
                 ),
               ),

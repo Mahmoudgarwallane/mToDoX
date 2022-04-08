@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mtodox/cubit/todo_cubit.dart';
 
 import '../assets/colors.dart';
+import '../model/category.dart';
+import '../model/task.dart';
 
 class Mtaskdialog {
-  color mycolor = color();
   Future<void> ListDialog(BuildContext context, Category category) {
     var maxWidth = MediaQuery.of(context).size.width;
-    var maxHeight = MediaQuery.of(context).size.height;
-    TextEditingController tasknamecontroller = TextEditingController();
-    TextEditingController taskdetailscontroller = TextEditingController();
+    TextEditingController taskNameController = TextEditingController();
+    TextEditingController taskDetailsController = TextEditingController();
 
     return showDialog(
         context: context,
@@ -20,7 +20,7 @@ class Mtaskdialog {
             builder: (context, state) {
               return AlertDialog(
                 elevation: 0,
-                backgroundColor: mycolor.lightblue,
+                backgroundColor: color.color5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)),
                 content: SizedBox(
@@ -33,18 +33,18 @@ class Mtaskdialog {
                         children: [
                           Text(
                             "اسم المهمة",
-                            style:
-                                TextStyle(fontSize: 18, color: mycolor.black),
+                            style: TextStyle(fontSize: 18, color: color.color2),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: TextField(
-                              controller: tasknamecontroller,
+                              style: TextStyle(color: color.color2),
+                              controller: taskNameController,
                               autofocus: true,
                               textDirection: TextDirection.rtl,
-                              cursorColor: mycolor.black,
+                              cursorColor: color.color2,
                               decoration: InputDecoration(
-                                  fillColor: mycolor.white,
+                                  fillColor: color.color1,
                                   filled: true,
                                   enabledBorder: const OutlineInputBorder(
                                       borderSide:
@@ -52,7 +52,7 @@ class Mtaskdialog {
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20),
                                       borderSide:
-                                          BorderSide(color: mycolor.purple))),
+                                          BorderSide(color: color.color3))),
                             ),
                           ),
                         ],
@@ -63,17 +63,17 @@ class Mtaskdialog {
                         children: [
                           Text(
                             "تفاصيل المهمة",
-                            style:
-                                TextStyle(fontSize: 18, color: mycolor.black),
+                            style: TextStyle(fontSize: 18, color: color.color2),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: TextField(
-                              controller: taskdetailscontroller,
+                              style: TextStyle(color: color.color2),
+                              controller: taskDetailsController,
                               textDirection: TextDirection.rtl,
-                              cursorColor: mycolor.black,
+                              cursorColor: color.color2,
                               decoration: InputDecoration(
-                                  fillColor: mycolor.white,
+                                  fillColor: color.color1,
                                   filled: true,
                                   enabledBorder: const OutlineInputBorder(
                                       borderSide:
@@ -81,26 +81,29 @@ class Mtaskdialog {
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20),
                                       borderSide:
-                                          BorderSide(color: mycolor.purple))),
+                                          BorderSide(color: color.color3))),
                             ),
                           ),
                         ],
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: mycolor.purple,
+                          primary: color.color3,
                         ),
                         onPressed: () {
-                          context.read<TodoCubit>().addTask(category,
-                              Task(name: tasknamecontroller.text, description: taskdetailscontroller.text));
+                          context.read<TodoCubit>().addTask(
+                              category,
+                              Task(
+                                  name: taskNameController.text,
+                                  description: taskDetailsController.text,
+                                  parentID: category.id!));
                           Navigator.pop(context);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(5),
                           child: Text(
                             "إنشاء",
-                            style:
-                                TextStyle(fontSize: 18, color: mycolor.white),
+                            style: TextStyle(fontSize: 18, color: color.color1),
                           ),
                         ),
                       ),

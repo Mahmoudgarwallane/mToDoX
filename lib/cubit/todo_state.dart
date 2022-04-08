@@ -1,21 +1,11 @@
 part of 'todo_cubit.dart';
 
-class Task {
-  String name;
- 
-  String description;
-  Task({
-    required this.name,
-    required this.description,
-  });
-}
-
-class Category {
-  final List<Task> tasks  = [];
-  String name;
-  Category({
-    required this.name,
-  });
+class TodoFields {
+  static final tableTodo = "todo";
+  static final id = "id";
+  static final name = "name";
+  static final description = "description";
+  static final parentID = "parentID";
 }
 
 class TodoState {
@@ -28,7 +18,6 @@ class TodoState {
 class TodoInitial extends TodoState {
   TodoInitial({required List<Category> categories})
       : super(
-          categories:categories,
+          categories: categories,
         );
 }
-

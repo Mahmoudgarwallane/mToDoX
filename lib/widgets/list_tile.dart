@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mtodox/cubit/todo_cubit.dart';
 import '../assets/colors.dart';
 
+import '../model/category.dart';
 import '../pages/task_page.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +18,6 @@ class CustomListTile extends StatefulWidget {
 }
 
 class _CustomListTileState extends State<CustomListTile> {
-  final color my_Colors = color();
-
   bool visible = true;
 
   @override
@@ -37,7 +36,7 @@ class _CustomListTileState extends State<CustomListTile> {
                     blurRadius: 7,
                     offset: const Offset(1, 5)),
               ],
-              color: my_Colors.deepwhite,
+              color: color.color4,
             ),
             child: Dismissible(
               onDismissed: (direction) {
@@ -68,7 +67,6 @@ class _CustomListTileState extends State<CustomListTile> {
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
                   onTap: () {
-                    print("Category pressed");
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return TaskPage(
@@ -80,11 +78,11 @@ class _CustomListTileState extends State<CustomListTile> {
                       onPressed: () {},
                       icon: Icon(
                         Icons.circle,
-                        color: my_Colors.purple,
+                        color: color.color3,
                       )),
                   title: Text(
                     widget.category.name,
-                    style: TextStyle(fontSize: 18, color: my_Colors.black),
+                    style: TextStyle(fontSize: 18, color: color.color2),
                   ),
                 ),
               ),

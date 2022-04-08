@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mtodox/cubit/todo_cubit.dart';
+import 'package:mtodox/db/todo_db.dart';
 import 'package:mtodox/widgets/task_tile.dart';
 
 import '../assets/colors.dart';
+import '../model/category.dart';
 import '../widgets/task_dialog.dart';
 
-class TaskPage extends StatelessWidget {
+class TaskPage extends StatefulWidget {
   late Category category;
   TaskPage({Key? key, required this.category}) : super(key: key);
 
   @override
+  State<TaskPage> createState() => _TaskPageState();
+}
+
+class _TaskPageState extends State<TaskPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<TodoCubit>().loadTasks(widget.category);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    color myColors = color();
     return BlocConsumer<TodoCubit, TodoState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -23,43 +36,42 @@ class TaskPage extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton(
-              backgroundColor: myColors.purple,
+              backgroundColor: color.color3,
               child: const Icon(
                 Icons.add,
               ),
               onPressed: () {
-                Mtaskdialog().ListDialog(context, category);
+                Mtaskdialog().ListDialog(context, widget.category);
               },
             ),
             appBar: AppBar(
               toolbarHeight: 70,
-              backgroundColor: myColors.lightblue,
+              backgroundColor: color.color5,
               elevation: 0,
               title: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  category.name,
-                  style: TextStyle(fontSize: 45, color: myColors.black),
+                  widget.category.name,
+                  style: TextStyle(fontSize: 45, color: color.color2),
                 ),
               ),
             ),
             body: Container(
-                color: myColors.lightblue,
+                color: color.color5,
                 child: Builder(builder: (context) {
-                  if (category.tasks.isEmpty) {
+                  if (widget.category.tasks.isEmpty) {
                     return Center(
                         child: Text(
                       "أضف مهمة",
-                      style: TextStyle(fontSize: 20, color: myColors.black),
+                      style: TextStyle(fontSize: 20, color: color.color2),
                     ));
                   } else {
                     return ListView.builder(
-                      itemCount: category.tasks.length,
+                      itemCount: widget.category.tasks.length,
                       itemBuilder: (context, index) {
-                        print(category.tasks);
                         return CustomTaskTile(
-                          task: category.tasks[index],
-                          category: category,
+                          task: widget.category.tasks[index],
+                          category: widget.category,
                         );
                       },
                     );

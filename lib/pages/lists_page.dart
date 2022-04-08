@@ -3,14 +3,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mtodox/cubit/todo_cubit.dart';
 import 'package:mtodox/widgets/list_tile.dart';
 import '../assets/colors.dart';
+import '../model/category.dart';
 import '../widgets/list_dialog.dart';
 
-class ListPage extends StatelessWidget {
+class ListPage extends StatefulWidget {
   const ListPage({Key? key}) : super(key: key);
 
   @override
+  State<ListPage> createState() => _ListPageState();
+}
+
+class _ListPageState extends State<ListPage> {
+  bool isDark = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<TodoCubit>().loadCategories();
+    bool isDark = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    color myColors = color();
     return Directionality(
       // add this
       textDirection: TextDirection.rtl, // set this property
@@ -21,7 +35,7 @@ class ListPage extends StatelessWidget {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: FloatingActionButton(
-            backgroundColor: myColors.purple,
+            backgroundColor: color.color3,
             child: const Icon(
               Icons.add,
             ),
@@ -29,26 +43,40 @@ class ListPage extends StatelessWidget {
               Mdialog().ListDialog(context);
             },
           ),
+          backgroundColor: color.color5,
           appBar: AppBar(
             toolbarHeight: 70,
-            backgroundColor: myColors.lightblue,
+            backgroundColor: color.color5,
             elevation: 0,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      color.switchTheme(isDark);
+                    });
+                    isDark = !isDark;
+                  },
+                  icon: Icon(
+                    !isDark ? Icons.dark_mode : Icons.light_mode,
+                    color: color.color3,
+                  )),
+            ],
             title: Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
                 "القوائم",
-                style: TextStyle(fontSize: 45, color: myColors.black),
+                style: TextStyle(fontSize: 45, color: color.color2),
               ),
             ),
           ),
           body: Container(
-            color: myColors.lightblue,
+            color: color.color5,
             child: Builder(builder: (context) {
               if (context.watch<TodoCubit>().categories.isEmpty) {
                 return Center(
                     child: Text(
                   "أضف قائمة",
-                  style: TextStyle(fontSize: 20, color: myColors.black),
+                  style: TextStyle(fontSize: 20, color: color.color2),
                 ));
               } else {
                 return ListView.builder(
