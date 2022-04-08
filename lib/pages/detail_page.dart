@@ -17,6 +17,9 @@ class DetailPage extends StatelessWidget {
         child: Scaffold(
             backgroundColor: color.color4,
             appBar: AppBar(
+              leading: BackButton(
+                color: color.color3,
+              ),
               backgroundColor: color.color4,
               elevation: 0,
               title: Padding(

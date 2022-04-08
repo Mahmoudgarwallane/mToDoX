@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mtodox/cubit/todo_cubit.dart';
+import 'package:mtodox/db/todo_db.dart';
 import 'package:mtodox/widgets/list_tile.dart';
 import '../assets/colors.dart';
 import '../model/category.dart';
@@ -21,6 +22,12 @@ class _ListPageState extends State<ListPage> {
     super.initState();
     context.read<TodoCubit>().loadCategories();
     bool isDark = false;
+  }
+
+  @override
+  void dispose() {
+    TodoDatabase.instance.close();
+    super.dispose();
   }
 
   @override
@@ -51,10 +58,10 @@ class _ListPageState extends State<ListPage> {
             actions: [
               IconButton(
                   onPressed: () {
+                    isDark = !isDark;
                     setState(() {
                       color.switchTheme(isDark);
                     });
-                    isDark = !isDark;
                   },
                   icon: Icon(
                     !isDark ? Icons.dark_mode : Icons.light_mode,

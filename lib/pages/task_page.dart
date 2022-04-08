@@ -44,7 +44,11 @@ class _TaskPageState extends State<TaskPage> {
                 Mtaskdialog().ListDialog(context, widget.category);
               },
             ),
+            backgroundColor: color.color5,
             appBar: AppBar(
+              leading: BackButton(
+                color: color.color3,
+              ),
               toolbarHeight: 70,
               backgroundColor: color.color5,
               elevation: 0,
@@ -67,6 +71,7 @@ class _TaskPageState extends State<TaskPage> {
                     ));
                   } else {
                     return ListView.builder(
+                      physics:BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                       itemCount: widget.category.tasks.length,
                       itemBuilder: (context, index) {
                         return CustomTaskTile(

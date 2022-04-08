@@ -22,9 +22,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: "Tajawal",
-          appBarTheme: AppBarTheme(
-            iconTheme: IconThemeData(color: color.color3), // 1
-          ),
         ),
         initialRoute: '/',
         routes: {

@@ -51,6 +51,6 @@ class TodoCubit extends Cubit<TodoState> {
     TodoDatabase db = TodoDatabase.instance;
     db.deleteCategory(c);
     state.categories.remove(c);
-    emit(state);
+    emit(TodoState(categories: categories));
   }
 }

@@ -21,6 +21,10 @@ class TodoDatabase {
     );
     return _dataBase!;
   }
+  Future close() async {
+    final db = await instance.dataBase;
+    db.close();
+  }
 
   Future createDB(Database db, int version) async {
     const nameType = "TEXT NOT NULL";
