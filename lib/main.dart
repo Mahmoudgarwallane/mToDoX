@@ -1,35 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:mtodox/assets/colors.dart';
-import 'package:mtodox/pages/task_page.dart';
-import 'package:mtodox/pages/detail_page.dart';
+import 'package:mtodox/cubit/todo_cubit.dart';
+import 'assets/colors.dart';
 import 'pages/lists_page.dart';
-import 'package:provider/provider.dart';
-import 'package:mtodox/providers/listProvider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Todo : add time feature (abdo's sugestion)
-void main() {
+void main()async {
   runApp(MyApp());
+  
 }
 
 class MyApp extends StatelessWidget {
-  color mycolors = color();
 
   MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ListProvider>(
-      create: (context) => ListProvider(),
+    return BlocProvider<TodoCubit>(
+      create: (context) => TodoCubit([]),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          fontFamily: "Tajawal",
           appBarTheme: AppBarTheme(
-            iconTheme: IconThemeData(color: mycolors.purple), // 1
+            iconTheme: IconThemeData(color: color.color3), // 1
           ),
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => ListPage(),
+          '/': (context) => const ListPage(),
         },
       ),
     );

@@ -1,63 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:mtodox/assets/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mtodox/pages/task_page.dart';
-import 'package:mtodox/providers/listProvider.dart';
+import 'package:mtodox/cubit/todo_cubit.dart';
+import '../assets/colors.dart';
+
+import '../model/category.dart';
+import '../pages/task_page.dart';
 import 'package:provider/provider.dart';
 
-class CustomListTile extends StatelessWidget {
-  final String listname;
-  int? index;
-  CustomListTile({
+class CustomListTile extends StatefulWidget {
+  final Category category;
+  const CustomListTile({
     Key? key,
-    this.index,
-    required this.listname,
+    required this.category,
   }) : super(key: key);
 
-  final color my_Colors = color();
+  @override
+  State<CustomListTile> createState() => _CustomListTileState();
+}
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!
+class _CustomListTileState extends State<CustomListTile> {
+  bool visible = true;
 
   @override
   Widget build(BuildContext context) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 7,
-                  offset: Offset(1, 5)),
-            ],
-            color: my_Colors.deepwhite,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: ListTile(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return TaskPage(
-                    list: listProvider.lists[index],
-                  );
-                }));
-              },
-              trailing: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.circle,
-                    color: my_Colors.purple,
-                  )),
-              title: Text(
-                listname,
-                style:
-                    GoogleFonts.tajawal(fontSize: 18, color: my_Colors.black),
-              ),
+    return Visibility(
+      visible: visible,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: const Offset(1, 5)),
+              ],
+              color: color.color4,
             ),
-          )),
+            child: Dismissible(
+              onDismissed: (direction) {
+                context.read<TodoCubit>().deleteCategory(widget.category);
+                setState(() {
+                  visible = false;
+                });
+              },
+              key: Key(widget.category.name),
+              background: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      Icons.delete,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return TaskPage(
+                        category: widget.category,
+                      );
+                    }));
+                  },
+                  trailing: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.circle,
+                        color: color.color3,
+                      )),
+                  title: Text(
+                    widget.category.name,
+                    style: TextStyle(fontSize: 18, color: color.color2),
+                  ),
+                ),
+              ),
+            )),
+      ),
     );
   }
 }

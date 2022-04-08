@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mtodox/assets/colors.dart';
-import 'package:provider/provider.dart';
-import 'package:mtodox/providers/listProvider.dart';
-import 'package:mtodox/widgets/task_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mtodox/cubit/todo_cubit.dart';
+import 'package:mtodox/db/todo_db.dart';
+import 'package:mtodox/widgets/task_tile.dart';
 
-class TaskPage extends StatelessWidget {
-  late Lista? list;
-  TaskPage({Key? key, this.list}) : super(key: key);
+import '../assets/colors.dart';
+import '../model/category.dart';
+import '../widgets/task_dialog.dart';
+
+class TaskPage extends StatefulWidget {
+  late Category category;
+  TaskPage({Key? key, required this.category}) : super(key: key);
+
+  @override
+  State<TaskPage> createState() => _TaskPageState();
+}
+
+class _TaskPageState extends State<TaskPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<TodoCubit>().loadTasks(widget.category);
+  }
 
   @override
   Widget build(BuildContext context) {
-    ListProvider taskProvider = Provider.of<ListProvider>(context);
-    color my_Colors = color();
-    return Consumer<ListProvider>(
-      builder: (context, value, child) {
+    return BlocConsumer<TodoCubit, TodoState>(
+      listener: (context, state) {},
+      builder: (context, state) {
         return Directionality(
           // add this
           textDirection: TextDirection.rtl, // set this property
@@ -22,42 +36,43 @@ class TaskPage extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton(
-              backgroundColor: my_Colors.purple,
-              child: Icon(
+              backgroundColor: color.color3,
+              child: const Icon(
                 Icons.add,
               ),
               onPressed: () {
-                Mtaskdialog().ListDialog(context, list!.index);
+                Mtaskdialog().ListDialog(context, widget.category);
               },
             ),
             appBar: AppBar(
-              backgroundColor: my_Colors.lightblue,
+              toolbarHeight: 70,
+              backgroundColor: color.color5,
               elevation: 0,
               title: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  list!.listName,
-                  style:
-                      GoogleFonts.changa(fontSize: 45, color: my_Colors.black),
+                  widget.category.name,
+                  style: TextStyle(fontSize: 45, color: color.color2),
                 ),
               ),
             ),
             body: Container(
-                color: my_Colors.lightblue,
+                color: color.color5,
                 child: Builder(builder: (context) {
-                  if (taskProvider.lists[list!.index].tasks.length == 0) {
+                  if (widget.category.tasks.isEmpty) {
                     return Center(
                         child: Text(
                       "أضف مهمة",
-                      style: GoogleFonts.tajawal(
-                          fontSize: 20, color: my_Colors.black),
+                      style: TextStyle(fontSize: 20, color: color.color2),
                     ));
                   } else {
                     return ListView.builder(
-                      itemCount: taskProvider.lists[list!.index].tasks.length,
+                      itemCount: widget.category.tasks.length,
                       itemBuilder: (context, index) {
-                        return taskProvider
-                            .lists[list!.index].tasks[index].tasktile;
+                        return CustomTaskTile(
+                          task: widget.category.tasks[index],
+                          category: widget.category,
+                        );
                       },
                     );
                   }

@@ -1,72 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mtodox/providers/listProvider.dart';
-import 'package:mtodox/assets/colors.dart';
+import '../assets/colors.dart';
+import '../cubit/todo_cubit.dart';
+import '../model/task.dart';
 
 class DetailPage extends StatelessWidget {
   final Task task;
-  DetailPage({Key? key, required this.task}) : super(key: key);
+  const DetailPage({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    color my_Colors = color();
     double maxwidth = MediaQuery.of(context).size.width;
     double maxheight = MediaQuery.of(context).size.height;
     return Directionality(
         // add this
         textDirection: TextDirection.rtl, // set this property
         child: Scaffold(
-            backgroundColor: my_Colors.deepwhite,
+            backgroundColor: color.color4,
             appBar: AppBar(
-              backgroundColor: my_Colors.deepwhite,
+              backgroundColor: color.color4,
               elevation: 0,
               title: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  task.taskName,
-                  
-                  style: GoogleFonts.changa(
+                  task.name,
+                  style: TextStyle(
                       fontSize: 25,
-                      color: my_Colors.black,
+                      color: color.color2,
                       fontWeight: FontWeight.w500),
                 ),
               ),
             ),
             body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               child: Align(
                 alignment: Alignment.bottomRight,
-                child: Container(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 20, right: 20, bottom: 20),
-                          child: Text('تفاصيل المهمة',
-                              style: GoogleFonts.tajawal(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20, right: 20, bottom: 20),
+                        child: Text('تفاصيل المهمة',
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: color.color2,
+                                fontWeight: FontWeight.w300)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                              color: color.color5),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(task.description,
+                                style: TextStyle(
                                   fontSize: 24,
-                                  color: my_Colors.black,
-                                  fontWeight: FontWeight.w300)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                color: my_Colors.lightblue),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(task.taskdetails,
-                                  style: GoogleFonts.tajawal(
-                                    fontSize: 24,
-                                    color: my_Colors.black,
-                                  )),
-                            ),
+                                  color: color.color2,
+                                )),
                           ),
-                        )
-                      ]),
-                ),
+                        ),
+                      )
+                    ]),
               ),
             )));
   }

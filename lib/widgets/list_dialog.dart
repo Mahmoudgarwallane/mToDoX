@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:mtodox/assets/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mtodox/providers/listProvider.dart';
-import 'package:provider/provider.dart';
-import 'package:mtodox/pages/task_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mtodox/cubit/todo_cubit.dart';
+import '../assets/colors.dart';
+import '../model/category.dart';
 
 class Mdialog {
-  color mycolor = color();
   Future<void> ListDialog(BuildContext context) {
-
-
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    var max_width = MediaQuery.of(context).size.width;
-    var max_height = MediaQuery.of(context).size.height;
+    var maxWidth = MediaQuery.of(context).size.width;
+    var maxHeight = MediaQuery.of(context).size.height;
     TextEditingController tasknamecontroller = TextEditingController();
     return showDialog(
         context: context,
         builder: (context) {
-          return Consumer(
-            builder: (context, __, _) {
+          return BlocConsumer<TodoCubit, TodoState>(
+            listener: ((context, state) {}),
+            builder: (context, state) {
               return AlertDialog(
                 elevation: 0,
-                backgroundColor: mycolor.lightblue,
+                backgroundColor: color.color5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)),
-                content: Container(
-                  width: max_width,
+                content: SizedBox(
+                  width: maxWidth,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -34,44 +30,45 @@ class Mdialog {
                         children: [
                           Text(
                             "اسم القائمة",
-                            style: GoogleFonts.tajawal(
-                                fontSize: 18, color: mycolor.black),
+                            style: TextStyle(fontSize: 18, color: color.color2),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: TextField(
+                              style: TextStyle(color: color.color2),
                               controller: tasknamecontroller,
                               autofocus: true,
                               textDirection: TextDirection.rtl,
-                              cursorColor: mycolor.black,
+                              cursorColor: color.color2,
                               decoration: InputDecoration(
-                                  fillColor: mycolor.white,
+                                  fillColor: color.color1,
                                   filled: true,
-                                  enabledBorder: OutlineInputBorder(
+                                  enabledBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.black)),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20),
                                       borderSide:
-                                          BorderSide(color: mycolor.purple))),
+                                          BorderSide(color: color.color3))),
                             ),
                           ),
                         ],
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: mycolor.purple,
+                          primary: color.color3,
                         ),
                         onPressed: () {
-                          listProvider.addList(tasknamecontroller.text,context);
+                          context.read<TodoCubit>().addCategory(Category(
+                                name: tasknamecontroller.text,
+                              ));
                           Navigator.pop(context);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(5),
                           child: Text(
                             "إنشاء",
-                            style: GoogleFonts.tajawal(
-                                fontSize: 18, color: mycolor.white),
+                            style: TextStyle(fontSize: 18, color: color.color1),
                           ),
                         ),
                       ),
