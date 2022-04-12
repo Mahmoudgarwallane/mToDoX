@@ -52,11 +52,11 @@ class _ListPageState extends State<ListPage> {
           ),
           backgroundColor: color.color5,
           appBar: AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  context.read<TodoCubit>().readAll();
-                },
-                icon: Icon(Icons.chrome_reader_mode_outlined)),
+            // leading: IconButton(
+            //     onPressed: () {
+            //       context.read<TodoCubit>().readAll();
+            //     },
+            //     icon: Icon(Icons.chrome_reader_mode_outlined)),
             toolbarHeight: 70,
             backgroundColor: color.color5,
             elevation: 0,
