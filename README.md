@@ -51,7 +51,7 @@ Contributions are always welcome!
 
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT LICENSE](LICENSE)
 
 
 ## Screenshots
