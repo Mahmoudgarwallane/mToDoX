@@ -21,6 +21,7 @@ class TodoDatabase {
     );
     return _dataBase!;
   }
+
   Future close() async {
     final db = await instance.dataBase;
     db.close();
@@ -106,6 +107,12 @@ class TodoDatabase {
         where: "${TodoFields.parentID} IS NULL");
     maps.forEach((e) {});
     return maps.map((e) => Category.fromJson(e)).toList();
+  }
+
+  Future readAll() async {
+    final Database db = await instance.dataBase;
+    final maps = await db.query(TodoFields.tableTodo);
+    maps.forEach((e) {});
   }
 
   Future<List<Task>> readAllTasks(int parentID) async {

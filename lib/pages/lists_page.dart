@@ -52,6 +52,11 @@ class _ListPageState extends State<ListPage> {
           ),
           backgroundColor: color.color5,
           appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {
+                  context.read<TodoCubit>().readAll();
+                },
+                icon: Icon(Icons.chrome_reader_mode_outlined)),
             toolbarHeight: 70,
             backgroundColor: color.color5,
             elevation: 0,
@@ -93,7 +98,13 @@ class _ListPageState extends State<ListPage> {
                     itemBuilder: (context, index) {
                       Category category =
                           context.watch<TodoCubit>().categories[index];
-                      return CustomListTile(category: category);
+                      return CustomListTile(
+                        category: category,
+                        onDismissed: (c) {
+                          context.read<TodoCubit>().deleteCategory(c);
+                          setState(() {});
+                        },
+                      );
                     });
               }
             }),

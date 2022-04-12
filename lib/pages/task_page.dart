@@ -71,10 +71,13 @@ class _TaskPageState extends State<TaskPage> {
                     ));
                   } else {
                     return ListView.builder(
-                      physics:BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                       itemCount: widget.category.tasks.length,
                       itemBuilder: (context, index) {
                         return CustomTaskTile(
+                          onDismissed: (c, t) {
+                            context.read<TodoCubit>().deleteTask(c, t);
+                            setState(() {});
+                          },
                           task: widget.category.tasks[index],
                           category: widget.category,
                         );

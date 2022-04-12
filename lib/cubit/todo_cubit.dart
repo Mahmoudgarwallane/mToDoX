@@ -16,6 +16,12 @@ class TodoCubit extends Cubit<TodoState> {
     emit(TodoState(categories: categories));
   }
 
+  Future<void> readAll() async {
+    TodoDatabase db = TodoDatabase.instance;
+    await db.readAll();
+    emit(TodoState(categories: categories));
+  }
+
   Future<void> loadTasks(Category c) async {
     final index = categories.indexOf(c);
     TodoDatabase db = TodoDatabase.instance;
@@ -27,7 +33,7 @@ class TodoCubit extends Cubit<TodoState> {
     TodoDatabase db = TodoDatabase.instance;
     db.createCategory(c);
     state.categories.add(c);
-    await loadCategories();
+    loadCategories();
     emit(TodoState(categories: categories));
   }
 
@@ -35,8 +41,6 @@ class TodoCubit extends Cubit<TodoState> {
     TodoDatabase db = TodoDatabase.instance;
     await db.createTask(t);
     c.tasks.add(t);
-
-    await loadTasks(c);
     emit(TodoState(categories: categories));
   }
 
