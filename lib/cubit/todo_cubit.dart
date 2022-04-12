@@ -16,13 +16,21 @@ class TodoCubit extends Cubit<TodoState> {
     emit(TodoState(categories: categories));
   }
 
-    void deleteTask(Category c, Task t) {
+  void deleteTask(Category c, Task t) {
     c.tasks.remove(t);
     emit(TodoState(categories: categories));
   }
 
   void deleteCategory(Category c) {
+    categories.forEach((element) {
+      print(element.name);
+    });
+    ;
+    print("fdfdfdfdfdfdf");
     state.categories.remove(c);
+    categories.forEach((element) {
+      print(element.name);
+    });
     emit(state);
   }
 }

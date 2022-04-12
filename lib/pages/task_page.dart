@@ -6,10 +6,15 @@ import 'package:mtodox/widgets/task_tile.dart';
 import '../assets/colors.dart';
 import '../widgets/task_dialog.dart';
 
-class TaskPage extends StatelessWidget {
+class TaskPage extends StatefulWidget {
   late Category category;
   TaskPage({Key? key, required this.category}) : super(key: key);
 
+  @override
+  State<TaskPage> createState() => _TaskPageState();
+}
+
+class _TaskPageState extends State<TaskPage> {
   @override
   Widget build(BuildContext context) {
     color myColors = color();
@@ -28,7 +33,7 @@ class TaskPage extends StatelessWidget {
                 Icons.add,
               ),
               onPressed: () {
-                Mtaskdialog().ListDialog(context, category);
+                Mtaskdialog().ListDialog(context, widget.category);
               },
             ),
             appBar: AppBar(
@@ -38,7 +43,7 @@ class TaskPage extends StatelessWidget {
               title: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  category.name,
+                  widget.category.name,
                   style: TextStyle(fontSize: 45, color: myColors.black),
                 ),
               ),
@@ -46,7 +51,7 @@ class TaskPage extends StatelessWidget {
             body: Container(
                 color: myColors.lightblue,
                 child: Builder(builder: (context) {
-                  if (category.tasks.isEmpty) {
+                  if (widget.category.tasks.isEmpty) {
                     return Center(
                         child: Text(
                       "أضف مهمة",
@@ -54,12 +59,16 @@ class TaskPage extends StatelessWidget {
                     ));
                   } else {
                     return ListView.builder(
-                      itemCount: category.tasks.length,
+                      itemCount: widget.category.tasks.length,
                       itemBuilder: (context, index) {
-                        print(category.tasks);
+                        print(widget.category.tasks);
                         return CustomTaskTile(
-                          task: category.tasks[index],
-                          category: category,
+                          onDismissed: (c, t) {
+                            context.read<TodoCubit>().deleteTask(c, t);
+                            setState(() {});
+                          },
+                          task: widget.category.tasks[index],
+                          category: widget.category,
                         );
                       },
                     );

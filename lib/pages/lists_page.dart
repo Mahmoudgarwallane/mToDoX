@@ -5,9 +5,14 @@ import 'package:mtodox/widgets/list_tile.dart';
 import '../assets/colors.dart';
 import '../widgets/list_dialog.dart';
 
-class ListPage extends StatelessWidget {
+class ListPage extends StatefulWidget {
   const ListPage({Key? key}) : super(key: key);
 
+  @override
+  State<ListPage> createState() => _ListPageState();
+}
+
+class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     color myColors = color();
@@ -58,7 +63,13 @@ class ListPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       Category category =
                           context.watch<TodoCubit>().categories[index];
-                      return CustomListTile(category: category);
+                      return CustomListTile(
+                        category: category,
+                        onDismissed: (c) {
+                          context.read<TodoCubit>().deleteCategory(c);
+                          setState(() {});
+                        },
+                      );
                     });
               }
             }),
@@ -68,3 +79,5 @@ class ListPage extends StatelessWidget {
     );
   }
 }
+
+

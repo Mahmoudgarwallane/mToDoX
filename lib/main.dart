@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TodoCubit>(
-      create: (context) => TodoCubit([Category(name: "task 3")]),
+      create: (context) => TodoCubit([Category(name: "task 3"),Category(name: "task 4")]),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
